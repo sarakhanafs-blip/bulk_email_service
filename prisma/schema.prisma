@@ -1,0 +1,24 @@
+// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Agent {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  phone     String?
+  company   String?
+  address   String?
+  city      String?
+  country   String?
+  specialties Json?   // optional: stores array of strings as JSON if you want
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
