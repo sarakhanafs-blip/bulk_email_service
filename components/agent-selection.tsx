@@ -49,9 +49,19 @@ useEffect(() => {
   fetch('/api/agents')
     .then(res => res.json())
     .then(data => {
-      setAgents(data);   // 👈 here
+      if (Array.isArray(data)) {
+        setAgents(data);
+      } else {
+        console.error("Invalid agents response:", data);
+        setAgents([]); // fallback so UI doesn’t break
+      }
+    })
+    .catch(err => {
+      console.error("Failed to fetch agents:", err);
+      setAgents([]);
     });
 }, []);
+
 
 const countries = Array.from(new Set(agents.map(agent => agent.country)));
 
